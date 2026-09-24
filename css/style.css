@@ -332,6 +332,10 @@ h1.hero-title{font-size:clamp(48px,8vw,118px); font-weight:900;}
 .contact{background:var(--ink); color:var(--bg); text-align:left;}
 .contact h2{font-size:clamp(36px,6vw,72px); margin-bottom:24px; max-width:760px;}
 .contact p{color:#B5B5AA; max-width:520px; margin-bottom:40px; font-size:16px;}
+/* mesmo cabecalho das outras seccoes, recalibrado para fundo escuro */
+.contact .s-head{margin-bottom:0;}
+.contact .s-num{-webkit-text-stroke-color:rgba(250,250,247,0.17);}
+.contact .s-eyebrow{color:#5C7CFF;}
 .contact-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:44px;}
 .contact .btn-primary{background:var(--blue); border-color:var(--blue); color:#fff;}
 .contact .btn-ghost{border-color:#3a3a34; color:var(--bg);}
