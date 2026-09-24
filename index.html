@@ -8,300 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#111110;
-    --bg:#FAFAF7;
-    --grey:#F0F0EC;
-    --line:#DCDCD5;
-    --blue:#1E3FE0;
-    --muted:#69695F;
-    --maxw:1320px;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:'Inter',sans-serif; font-size:16px; line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  ::selection{background:var(--blue); color:#fff;}
-  h1,h2,h3,h4{font-family:'Archivo',sans-serif; font-weight:800; line-height:0.98; margin:0; letter-spacing:-0.02em;}
-  a{color:inherit;}
-  img{max-width:100%; display:block;}
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 40px;}
-  @media (max-width:700px){.wrap{padding:0 22px;}}
-
-  @media (prefers-reduced-motion: reduce){
-    *{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
-  }
-  a:focus-visible, button:focus-visible{outline:2px solid var(--blue); outline-offset:3px;}
-
-  /* fixed background grid guides — constant structural reference */
-  .grid-guides{
-    position:fixed; inset:0; z-index:0; pointer-events:none;
-    max-width:var(--maxw); margin:0 auto; padding:0 40px;
-    display:grid; grid-template-columns:repeat(12,1fr); gap:0;
-  }
-  .grid-guides div{border-left:1px solid rgba(17,17,16,0.045); height:100%;}
-  @media (max-width:900px){.grid-guides{display:none;}}
-
-  #progress{position:fixed; top:0; left:0; height:3px; background:var(--blue); z-index:200; width:0%;}
-
-  /* fixed section counter, bottom-left */
-  .counter{
-    position:fixed; left:24px; bottom:24px; z-index:90;
-    font-family:'Archivo',sans-serif; font-weight:700; font-size:13px;
-    display:flex; align-items:center; gap:8px; color:var(--ink);
-  }
-  .counter .now{font-size:20px;}
-  .counter .bar{width:60px; height:2px; background:var(--line); position:relative; overflow:hidden;}
-  .counter .bar::after{content:''; position:absolute; left:0; top:0; bottom:0; background:var(--blue); width:var(--p,0%); transition:width .3s ease;}
-  @media (max-width:640px){.counter{display:none;}}
-
-  /* right index rail */
-  .rail{position:fixed; right:22px; top:50%; transform:translateY(-50%); z-index:90; display:flex; flex-direction:column; gap:14px;}
-  .rail button{
-    background:none; border:none; cursor:pointer; padding:0; text-align:right;
-    font-family:'Archivo',sans-serif; font-size:11px; font-weight:700; color:var(--line);
-    transition:color .25s ease;
-  }
-  .rail button.active{color:var(--blue);}
-  @media (max-width:900px){.rail{display:none;}}
-
-  /* NAV */
-  header.top{position:sticky; top:0; z-index:100; background:rgba(250,250,247,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line);}
-  .top-bar{display:flex; align-items:center; justify-content:space-between; padding:18px 40px; max-width:var(--maxw); margin:0 auto;}
-  @media (max-width:700px){.top-bar{padding:16px 22px;}}
-  .logo{font-family:'Archivo',sans-serif; font-weight:800; font-size:18px; letter-spacing:-0.01em;}
-  nav.topnav{display:flex; align-items:center; gap:0; font-size:12.5px; font-weight:600; font-family:'Archivo',sans-serif;}
-  nav.topnav a{text-decoration:none; color:var(--muted); padding:0 14px; border-right:1px solid var(--line); transition:color .2s;}
-  nav.topnav a:last-child{border-right:none;}
-  nav.topnav a:hover, nav.topnav a.active{color:var(--blue);}
-  .nav-toggle{display:none; background:none; border:none; cursor:pointer;}
-  .nav-toggle svg{width:22px; height:22px;}
-  .mobile-nav{display:none;}
-  @media (max-width:820px){
-    nav.topnav{display:none;}
-    .nav-toggle{display:block;}
-    .mobile-nav{
-      display:none; flex-direction:column; position:absolute; top:100%; left:0; right:0;
-      background:var(--bg); border-bottom:1px solid var(--line);
-    }
-    .mobile-nav.open{display:flex;}
-    .mobile-nav a{padding:14px 22px; border-top:1px solid var(--line); text-decoration:none; color:var(--ink); font-family:'Archivo',sans-serif; font-weight:600; font-size:14px;}
-    .mobile-nav a.active{color:var(--blue);}
-  }
-
-  section{padding:88px 0; position:relative; z-index:1;}
-
-  /* MARQUEE TICKER */
-  .ticker-band{background:var(--ink); color:var(--bg); overflow:hidden; padding:16px 0; white-space:nowrap;}
-  .ticker-track{display:inline-flex; animation:tick 26s linear infinite;}
-  .ticker-track span{font-family:'Archivo',sans-serif; font-weight:700; font-size:16px; padding:0 28px; display:inline-flex; align-items:center; gap:28px;}
-  .ticker-track span::after{content:'✦'; color:var(--blue); font-size:11px;}
-  @keyframes tick{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
-
-  /* HERO */
-  .hero{padding-top:70px; padding-bottom:0;}
-  .hero-grid{display:grid; grid-template-columns:2fr 1fr; gap:40px; align-items:end; border-bottom:1px solid var(--line); padding-bottom:52px;}
-  .hero-eyebrow{font-family:'Archivo',sans-serif; font-weight:700; font-size:13px; color:var(--blue); margin-bottom:22px; display:flex; align-items:center; gap:10px;}
-  .hero-eyebrow::before{content:''; width:8px; height:8px; background:var(--blue); border-radius:50%; display:inline-block;}
-  h1.hero-title{font-size:clamp(48px,8vw,118px); font-weight:900;}
-  .hero-title .ln{display:block; overflow:hidden;}
-  .hero-title .ln span{display:inline-block; transform:translateY(105%); transition:transform .75s cubic-bezier(.19,1,.22,1);}
-  .hero-title .ln.in span{transform:translateY(0);}
-  .hero-meta{border-left:1px solid var(--line); padding-left:32px;}
-  .hero-meta dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 14px; font-size:13.5px;}
-  .hero-meta dt{color:var(--muted); font-weight:500;}
-  .hero-meta dd{margin:0; font-weight:600;}
-  @media (max-width:800px){.hero-grid{grid-template-columns:1fr;} .hero-meta{border-left:none; padding-left:0; border-top:1px solid var(--line); padding-top:24px;}}
-
-  .hero-bottom{display:grid; grid-template-columns:1fr auto; gap:30px; align-items:center; padding:34px 0; flex-wrap:wrap;}
-  .hero-sub{font-size:18px; max-width:560px; color:#3A3A34;}
-  .hero-ctas{display:flex; gap:12px; flex-wrap:wrap;}
-  .btn{
-    display:inline-flex; align-items:center; gap:8px; padding:14px 26px; font-size:13.5px; font-weight:700;
-    text-decoration:none; cursor:pointer; font-family:'Archivo',sans-serif; letter-spacing:0.01em;
-    border:1.5px solid var(--ink); background:transparent; color:var(--ink); transition:background .2s, color .2s;
-  }
-  .btn-primary{background:var(--ink); color:var(--bg);}
-  .btn-primary:hover{background:var(--blue); border-color:var(--blue);}
-  .btn-ghost:hover{background:var(--ink); color:var(--bg);}
-  @media (max-width:760px){.hero-bottom{grid-template-columns:1fr;}}
-
-  .stat-row{display:flex; gap:0; flex-wrap:wrap; border-top:1.5px solid var(--ink); margin-top:8px;}
-  .stat{flex:1 1 140px; padding:24px 24px 0 0; border-left:1px solid var(--line);}
-  .stat:first-child{border-left:none; padding-left:0;}
-  .stat-num{font-family:'Archivo',sans-serif; font-weight:900; font-size:clamp(30px,4vw,44px); color:var(--blue); line-height:1;}
-  .stat-num .suffix{color:var(--ink);}
-  .stat-label{font-size:12.5px; color:var(--muted); margin-top:6px; font-family:'Archivo',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:0.03em;}
-  @media (max-width:700px){.stat{flex:1 1 45%; border-left:none; border-top:1px solid var(--line); padding:16px 0 0;}}
-
-  /* section heading with ghost number */
-  .s-head{position:relative; margin-bottom:52px; padding-top:8px;}
-  .s-num{
-    font-family:'Archivo',sans-serif; font-weight:900; font-size:clamp(60px,9vw,130px);
-    color:transparent; -webkit-text-stroke:1.3px var(--line); line-height:0.8;
-    position:absolute; top:-18px; left:-4px; z-index:-1; user-select:none;
-  }
-  .s-eyebrow{font-family:'Archivo',sans-serif; font-weight:700; font-size:12.5px; color:var(--blue); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.04em;}
-  .s-title{font-size:clamp(28px,4vw,44px); max-width:640px;}
-  .rule-draw{height:1px; background:var(--line); margin-top:28px; position:relative; overflow:hidden;}
-  .rule-draw::after{content:''; position:absolute; inset:0; background:var(--ink); transform:scaleX(0); transform-origin:left; transition:transform .9s cubic-bezier(.65,0,.35,1);}
-  .rule-draw.in::after{transform:scaleX(1);}
-
-  /* FEATURED */
-  .feat-grid{display:grid; grid-template-columns:1.2fr .8fr; gap:50px; margin-bottom:48px;}
-  .feat-main{border-top:2px solid var(--ink); padding-top:24px;}
-  .feat-tag{display:inline-block; font-family:'Archivo',sans-serif; font-weight:700; font-size:11.5px; background:var(--blue); color:#fff; padding:4px 10px; margin-bottom:16px;}
-  .feat-main h3{font-size:clamp(24px,3vw,34px); font-weight:800; margin-bottom:14px;}
-  .feat-byline{font-size:13px; color:var(--muted); margin-bottom:20px;}
-  .feat-main p{color:#3A3A34; margin-bottom:14px; font-size:15px;}
-  .feat-quote{font-family:'Archivo',sans-serif; font-weight:600; font-size:18px; border-left:3px solid var(--blue); padding-left:18px; margin:20px 0;}
-  .feat-side{border-top:2px solid var(--line); padding-top:24px;}
-  .feat-side h4{font-family:'Archivo',sans-serif; font-size:12.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); font-weight:700; margin-bottom:14px;}
-  .feat-side ol{padding-left:18px; margin:0; font-size:14px; line-height:2;}
-  @media (max-width:860px){.feat-grid{grid-template-columns:1fr;}}
-
-  .clip-row{display:grid; grid-template-columns:1fr 1fr; gap: 100px;}
-  .clip-card{position:relative;}
-  /* order puts the rule between the number (::before) and the label text node, which sits at order 0 */
-  .clip-tag{
-    display:flex; align-items:center; gap:14px;
-    border-top:1.5px solid var(--ink); padding-top:10px; margin-bottom:16px;
-    font-family:'Archivo',sans-serif; font-weight:700; font-size:11px;
-    text-transform:uppercase; letter-spacing:0.08em; color:var(--ink);
-  }
-  .clip-tag::before{content:attr(data-num); order:-2; color:var(--blue); font-size:13px;}
-  .clip-tag::after{content:''; order:-1; flex:1; height:1px; background:var(--line); transform:scaleX(0); transform-origin:left;}
-  .clip-card.in .clip-tag::after{transform:scaleX(1); transition:transform .9s cubic-bezier(.65,0,.35,1) .15s;}
-  .clip-imgwrap{aspect-ratio:4/5; overflow:hidden; position:relative; background:var(--grey);}
-  .clip-imgwrap img{width:100%; height:100%; object-fit:cover;}
-  .clip-shutter{position:absolute; inset:0; background:var(--ink); transform:scaleY(1); transform-origin:top; z-index:2;}
-  .clip-card.in .clip-shutter{transition:transform .9s cubic-bezier(.65,0,.35,1); transform:scaleY(0);}
-  .clip-body{padding-top:14px;}
-  .clip-body h5{font-family:'Archivo',sans-serif; font-size:15px; font-weight:700;}
-  .clip-body span{font-size:12.5px; color:var(--muted);}
-  @media (max-width:760px){.clip-row{grid-template-columns:1fr;}}
-
-  /* ABOUT */
-  /* 7 colunas de texto + 1 de goteira + 4 de foto = as 12 guias de fundo */
-  .about-grid{display:grid; grid-template-columns:calc(100%/12*7) 1fr; gap:calc(100%/12); align-items:start;}
-  .about-photo{aspect-ratio:3/4; overflow:hidden; background:var(--line);}
-  .about-photo img{width:100%; height:100%; object-fit:cover;}
-  .about-grid p{color:#3A3A34; margin-bottom:16px; max-width:560px; text-align:justify; -webkit-hyphens:auto; hyphens:auto;}
-  .about-grid .about-lead{font-size:22px; font-weight:600; color:var(--ink); margin-bottom:20px; text-align:left; hyphens:none;}
-  .about-tags{
-    display:grid; grid-template-columns:repeat(4,1fr); gap:0;
-    margin-top:48px; padding-top:18px; border-top:1.5px solid var(--ink);
-  }
-  .tag-sq{font-family:'Archivo',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:0.06em; padding-right:20px;}
-  @media (max-width:980px){.about-grid{grid-template-columns:calc(100%/12*6) 1fr;}}
-  @media (max-width:800px){.about-grid{grid-template-columns:1fr; gap:36px;} .about-photo{max-width:340px; order:-1;}}
-  @media (max-width:900px){.about-tags{grid-template-columns:repeat(2,1fr); row-gap:14px;}}
-  @media (max-width:520px){.about-tags{grid-template-columns:1fr; row-gap:12px;}}
-
-  .value-block{margin-top:44px; padding-top:30px; border-top:1px solid var(--line);}
-  .value-block .s-title{margin-bottom:40px;}
-  .value-grid{display:grid; grid-template-columns:repeat(3,1fr); border-top:1.5px solid var(--ink);}
-  .value-col{padding:28px 32px 0 0;}
-  .value-col + .value-col{border-left:1px solid var(--line); padding-left:32px;}
-  .value-col h4{font-size:19px; font-weight:800; margin-bottom:12px;}
-  .value-col p{font-size:14.5px; color:#3A3A34; margin:0;}
-  @media (max-width:820px){
-    .value-grid{grid-template-columns:1fr;}
-    .value-col{padding:24px 0 0;}
-    .value-col + .value-col{border-left:none; border-top:1px solid var(--line); padding-left:0;}
-  }
-
-  /* PORTFOLIO — index list with cursor preview */
-  .block{margin-bottom:80px;}
-  .block-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; margin-bottom:8px;}
-  .block-head h3{font-size:22px; font-weight:800;}
-  .block-head .tag-sm{font-size:12px; font-family:'Archivo',sans-serif; font-weight:700; color:var(--muted);}
-  .block-desc{max-width:640px; color:var(--muted); font-size:14.5px; margin-bottom:26px;}
-
-  .index-list{border-top:1px solid var(--ink); position:relative;}
-  .index-row{
-    display:grid; grid-template-columns:50px 1fr auto; gap:20px; align-items:center;
-    padding:22px 0; border-bottom:1px solid var(--line); text-decoration:none; color:var(--ink);
-    transition:padding-left .25s ease;
-  }
-  .index-row:hover{padding-left:14px;}
-  .index-row .idx{font-family:'Archivo',sans-serif; font-weight:700; color:var(--muted); font-size:13px;}
-  .index-row .ttl{font-family:'Archivo',sans-serif; font-weight:700; font-size:18px;}
-  .index-row:hover .ttl{color:var(--blue);}
-  .index-row .dt{font-size:12.5px; color:var(--muted); font-family:'Archivo',sans-serif; font-weight:600;}
-
-  .cursor-preview{
-    position:fixed; width:150px; height:96px; pointer-events:none; z-index:300;
-    display:flex; align-items:center; justify-content:center; text-align:center;
-    font-family:'Archivo',sans-serif; font-weight:700; font-size:12px; color:#fff;
-    padding:10px; opacity:0; transform:translate(-50%,-50%) scale(0.85); transition:opacity .18s ease, transform .18s ease;
-    left:0; top:0;
-  }
-  .cursor-preview.visible{opacity:1; transform:translate(-50%,-50%) scale(1);}
-  @media (max-width:820px){.cursor-preview{display:none;}}
-
-  .blog-cta{margin-top:22px; font-size:14px; font-family:'Archivo',sans-serif; font-weight:600;}
-  .blog-cta a{color:var(--blue); text-decoration:none; border-bottom:1.5px solid var(--blue);}
-
-  .stage-desc{max-width:640px; color:var(--muted); font-size:14.5px; margin-bottom:8px;}
-  .stage-note{border-left:2px solid var(--blue); padding:14px 18px; font-size:13px; color:var(--muted); margin:20px 0 32px; max-width:640px; background:var(--grey);}
-  .num-rows{border-top:1px solid var(--ink);}
-  .num-row{display:grid; grid-template-columns:56px 260px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid var(--line); align-items:baseline;}
-  .num-row .nr-num{font-family:'Archivo',sans-serif; font-weight:900; font-size:22px; color:var(--blue);}
-  .num-row h4{font-family:'Archivo',sans-serif; font-size:16px; font-weight:700;}
-  .num-row p{font-size:14px; color:var(--muted); margin:0;}
-  @media (max-width:760px){.num-row{grid-template-columns:36px 1fr; } .num-row h4{grid-column:2/3;} .num-row p{grid-column:1/3;}}
-
-  .visuals-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
-  .visual-placeholder{aspect-ratio:4/5; background:var(--grey); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:12px; text-align:center; padding:16px; font-family:'Archivo',sans-serif; font-weight:600;}
-  @media (max-width:760px){.visuals-grid{grid-template-columns:1fr 1fr;}}
-  @media (max-width:520px){.visuals-grid{grid-template-columns:1fr;}}
-
-  .assoc-box{border:1.5px solid var(--ink); padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px;}
-  .assoc-box h4{font-size:19px; font-weight:800; margin-bottom:12px;}
-  .assoc-box p{font-size:14px; color:var(--muted); margin:0;}
-  .assoc-list{list-style:none; margin:0; padding:0; font-size:14px;}
-  .assoc-list li{padding:10px 0; border-bottom:1px solid var(--line); display:flex; gap:10px;}
-  .assoc-list li::before{content:'→'; color:var(--blue); font-weight:700;}
-  @media (max-width:760px){.assoc-box{grid-template-columns:1fr; padding:26px;}}
-
-  /* SKILLS as spec table */
-  .spec-table{border-top:1.5px solid var(--ink);}
-  .spec-row{display:grid; grid-template-columns:200px 1fr; gap:24px; padding:20px 0; border-bottom:1px solid var(--line);}
-  .spec-row .cat{font-family:'Archivo',sans-serif; font-weight:800; font-size:14px; color:var(--blue);}
-  .spec-items{display:flex; flex-wrap:wrap; gap:10px 28px;}
-  .spec-items div b{display:block; font-size:14.5px; font-weight:700;}
-  .spec-items div span{font-size:12.5px; color:var(--muted);}
-  @media (max-width:700px){.spec-row{grid-template-columns:1fr;}}
-
-  /* EDUCATION */
-  .edu-row{display:grid; grid-template-columns:130px 1fr; gap:24px; padding:22px 0; border-bottom:1px solid var(--line);}
-  .edu-row:first-child{border-top:1.5px solid var(--ink);}
-  .edu-yr{font-family:'Archivo',sans-serif; font-weight:700; color:var(--blue); font-size:13.5px;}
-  .edu-row h4{font-size:17px; font-weight:700; margin-bottom:4px;}
-  .edu-row p{font-size:13.5px; color:var(--muted); margin:0;}
-
-  /* CONTACT */
-  .contact{background:var(--ink); color:var(--bg); text-align:left;}
-  .contact h2{font-size:clamp(36px,6vw,72px); margin-bottom:24px; max-width:760px;}
-  .contact p{color:#B5B5AA; max-width:520px; margin-bottom:40px; font-size:16px;}
-  .contact-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:44px;}
-  .contact .btn-primary{background:var(--blue); border-color:var(--blue); color:#fff;}
-  .contact .btn-ghost{border-color:#3a3a34; color:var(--bg);}
-  .contact .btn-ghost:hover{background:var(--bg); color:var(--ink);}
-  .contact-links{display:flex; gap:26px; flex-wrap:wrap; font-size:13.5px; font-family:'Archivo',sans-serif; font-weight:600;}
-  .contact-links a{color:#B5B5AA; text-decoration:none; border-bottom:1px solid #3a3a34;}
-  .contact-links a:hover{color:var(--bg); border-color:var(--bg);}
-
-  footer{padding:26px 0; font-size:12px; color:var(--muted); font-family:'Archivo',sans-serif; font-weight:600;}
-
-  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s cubic-bezier(.19,1,.22,1);}
-  .reveal.in{opacity:1; transform:translateY(0);}
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -315,12 +22,11 @@
   <button data-target="topo" data-label="Início" class="active">Início</button>
   <button data-target="destaque" data-label="Destaque">Destaque</button>
   <button data-target="sobre" data-label="Sobre">Sobre</button>
-  <button data-target="portfolio" data-label="Portfólio">Portfólio</button>
+  <button data-target="projetos" data-label="Projetos">Projetos</button>
   <button data-target="competencias" data-label="Skills">Skills</button>
   <button data-target="formacao" data-label="Formação">Formação</button>
   <button data-target="contacto" data-label="Contacto">Contacto</button>
 </div>
-<div class="cursor-preview" id="cursorPreview"></div>
 
 <header class="top">
   <div class="top-bar">
@@ -328,8 +34,8 @@
     <nav class="topnav" id="topnav">
       <a href="#destaque" data-target="destaque">DESTAQUE</a>
       <a href="#sobre" data-target="sobre">SOBRE</a>
-      <a href="#portfolio" data-target="portfolio">PORTFÓLIO</a>
-      <a href="#competencias" data-target="competencias">SKILLS</a>
+      <a href="#projetos" data-target="projetos">PROJETOS</a>
+      <a href="#competencias" data-target="competencias">COMPETÊNCIAS</a>
       <a href="#formacao" data-target="formacao">FORMAÇÃO</a>
       <a href="#contacto" data-target="contacto">CONTACTO</a>
     </nav>
@@ -341,7 +47,7 @@
     <a href="#topo" data-target="topo">Início</a>
     <a href="#destaque" data-target="destaque">Destaque</a>
     <a href="#sobre" data-target="sobre">Sobre Mim</a>
-    <a href="#portfolio" data-target="portfolio">Portfólio</a>
+    <a href="#projetos" data-target="projetos">Projetos</a>
     <a href="#competencias" data-target="competencias">Competências</a>
     <a href="#formacao" data-target="formacao">Formação</a>
     <a href="#contacto" data-target="contacto">Contacto</a>
@@ -372,7 +78,7 @@
     <div class="hero-bottom">
       <p class="hero-sub">Finalista de Marketing e Relações Públicas. Alinho a força da escrita à clareza estratégica para criar mensagens que se leem, se sentem e aproximam pessoas.</p>
       <div class="hero-ctas">
-        <a href="#portfolio" class="btn btn-primary">Ver Portfólio</a>
+        <a href="#projetos" class="btn btn-primary">Ver Portfólio</a>
         <a href="assets/CV_Sara_Soares.pdf" class="btn btn-ghost" target="_blank">Descarregar CV</a>
       </div>
     </div>
@@ -483,84 +189,176 @@
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio">
+<!-- PROJETOS -->
+<section id="projetos">
   <div class="wrap">
     <div class="s-head reveal">
       <span class="s-num">03</span>
-      <div class="s-eyebrow">Portfólio</div>
+      <div class="s-eyebrow">Projetos</div>
       <h2 class="s-title">Trabalho escrito e publicado</h2>
     </div>
-
     <div class="block reveal">
       <div class="block-head"><h3>Copywriting &amp; Redação Editorial</h3><span class="tag-sm">BIBL(I)FORMA · BIBLIOTECA ISVOUGA</span></div>
-      <p class="block-desc"> Redação e edição de artigos para o blogue institucional <em>bibl(i)forma</em>. Passa o cursor sobre os títulos para pré-visualizar.</p>
+      <p class="block-desc">Redação e edição de artigos para o blogue institucional <em>bibl(i)forma</em>.</p>
       <div class="index-list" id="indexList">
-        <a class="index-row" href="https://bibliforma.wordpress.com/2026/05/29/corrosao-a-obra-de-referencia-que-atravessa-geracoes/" target="_blank">
-          <span class="idx">01</span><span class="ttl">Corrosão: a obra de referência que atravessa gerações</span><span class="dt">29 MAI 2026</span>
+        <a class="index-row" href="https://bibliforma.wordpress.com/2025/09/23/sentes-te-preparado-para-enfrentar-uma-crise-pensa-antes-de-falar-age-antes-de-reagir/" target="_blank">
+          <span class="idx">01</span>
+          <span class="row-main">
+            <span class="cat">Gestão de crise &amp; RP</span>
+            <span class="ttl">Sentes-te preparado para enfrentar uma crise? Pensa antes de falar. Age antes de reagir.</span>
+            <span class="hook">«Às vezes, não é a crise que define uma marca, mas a forma como escolhemos enfrentá-la. Quando tudo à volta desaba, a forma como comunicamos pode ditar a diferença entre a recuperação e o colapso.»</span>
+          </span>
+          <span class="dt">23 SET 2025</span>
         </a>
-        <a class="index-row" href="https://bibliforma.wordpress.com/2026/05/28/reflexao-sobre-desinformacao-inteligencia-artificial-e-pensamento-critico-no-isvouga/" target="_blank">
-          <span class="idx">02</span><span class="ttl">Reflexão sobre desinformação, IA e pensamento crítico no ISVOUGA</span><span class="dt">28 MAI 2026</span>
+        <a class="index-row" href="https://bibliforma.wordpress.com/2025/08/19/tambem-quero-escrever-como-e-que-faco/" target="_blank">
+          <span class="idx">02</span>
+          <span class="row-main">
+            <span class="cat">Content Writing &amp; Storytelling</span>
+            <span class="ttl">Também quero escrever. Como é que faço?</span>
+            <span class="hook">«Quantas vezes ouviste alguém dizer isto? Ou até tu próprio já o pensaste? (...) Não é um manual de regras (...) É um livro honesto, direto e feito de experiência vivida, porque escrever é isso mesmo: viver, reparar, tomar notas, falhar, tentar de novo.»</span>
+          </span>
+          <span class="dt">19 AGO 2025</span>
+        </a>
+        <a class="index-row" href="https://bibliforma.wordpress.com/2025/09/09/o-marketing-esta-a-ser-observado-e-agora/" target="_blank">
+          <span class="idx">03</span>
+          <span class="row-main">
+            <span class="cat">Governança &amp; Ética</span>
+            <span class="ttl">O Marketing está a ser observado. E agora?</span>
+            <span class="hook">«Imagina uma sala cheia de espelhos. Cada decisão que tomas como marca, cada campanha, cada slogan, cada escolha de influenciador, reflete-se num desses espelhos. E do outro lado, não estão apenas consumidores.»</span>
+          </span>
+          <span class="dt">09 SET 2025</span>
+        </a>
+        <a class="index-row" href="https://bibliforma.wordpress.com/2026/05/10/depois-da-teoria-de-kotler-sabemos-decidir/" target="_blank">
+          <span class="idx">04</span>
+          <span class="row-main">
+            <span class="cat">Estratégia &amp; Decisão</span>
+            <span class="ttl">Depois da teoria de Kotler... sabemos decidir?</span>
+            <span class="hook">«Muitas empresas culpam o mercado. Outras culpam a concorrência. Algumas culpam o digital. Raramente culpam as próprias decisões. (...) O Marketing não é um conjunto de slogans. É um conjunto de escolhas.»</span>
+          </span>
+          <span class="dt">10 MAI 2026</span>
         </a>
         <a class="index-row" href="https://bibliforma.wordpress.com/2026/05/27/a-engenharia-comeca-na-escolha-do-material/" target="_blank">
-          <span class="idx">03</span><span class="ttl">A engenharia começa na escolha do material</span><span class="dt">27 MAI 2026</span>
-        </a>
-        <a class="index-row" href="https://bibliforma.wordpress.com/2026/05/26/o-risco-da-desinformacao-e-a-importancia-de-desenvolver-a-literacia-mediatica/" target="_blank">
-          <span class="idx">04</span><span class="ttl">O risco da desinformação e a literacia mediática</span><span class="dt">26 MAI 2026</span>
-        </a>
-        <a class="index-row" href="https://bibliforma.wordpress.com/2026/05/25/o-primeiro-projeto-comeca-aqui/" target="_blank">
-          <span class="idx">05</span><span class="ttl">O primeiro projeto começa aqui</span><span class="dt">25 MAI 2026</span>
+          <span class="idx">05</span>
+          <span class="row-main">
+            <span class="cat">Comunicação Técnica</span>
+            <span class="ttl">A engenharia começa na escolha do material</span>
+            <span class="hook">«Antes de qualquer projeto existe uma pergunta fundamental: com o quê? Tudo o que existe foi construído com alguma coisa. Um avião que voa. Uma ponte. A prótese que substitui um osso. (...) Tudo tem um material por trás. E escolher o errado pode custar caro.»</span>
+          </span>
+          <span class="dt">27 MAI 2026</span>
         </a>
       </div>
-      <p class="blog-cta">+ 54 OUTROS ARTIGOS PUBLICADOS. <a href="https://bibliforma.wordpress.com" target="_blank">VER O BLOGUE COMPLETO →</a></p>
+      <p class="blog-cta">+ 54 ARTIGOS PUBLICADOS. <a href="https://bibliforma.wordpress.com/author/soaressaram/" target="_blank">VER TODOS OS ARTIGOS →</a></p>
     </div>
 
     <div class="block reveal">
-      <div class="block-head"><h3>Campanha "7 Dias com os Media"</h3><span class="tag-sm">LITERACIA MEDIÁTICA</span></div>
-      <p class="block-desc">Série de 7 conteúdos diários sobre literacia mediática, para o Dia Mundial da Liberdade de Imprensa.</p>
-      <p class="blog-cta"><a href="https://www.gilm.pt/7diascomosmedia/nossas-iniciativas-2026/" target="_blank">VER A INICIATIVA COMPLETA →</a></p>
+      <div class="block-head"><h3>7 Dias, 7 Dicas com a Biblioteca</h3><span class="tag-sm">OPERAÇÃO NACIONAL · LITERACIA MEDIÁTICA · GILM / ISVOUGA</span></div>
+      <div class="campaign-grid">
+        <div>
+          <p class="block-desc">Conceção do cartaz oficial de divulgação e desenvolvimento editorial de uma série de 7 artigos temáticos sobre literacia mediática, combate à desinformação e pensamento crítico, integrando a iniciativa nacional "7 Dias com os Media" promovida pelo GILM.</p>
+          <p class="blog-cta"><a href="https://bibliforma.wordpress.com/tag/literacia-mediatica/" target="_blank">VER A INICIATIVA COMPLETA →</a></p>
+          <div class="dica-list">
+            <div class="dica-row"><span class="n">01</span><div><h4>Verificar é essencial</h4><p>Nem tudo o que parece… é.</p></div></div>
+            <div class="dica-row"><span class="n">02</span><div><h4>Informação não é tudo igual</h4><p>Nem todo o conteúdo é jornalismo.</p></div></div>
+            <div class="dica-row"><span class="n">03</span><div><h4>Credibilidade constrói-se</h4><p>Likes não são sinónimos de verdade.</p></div></div>
+            <div class="dica-row"><span class="n">04</span><div><h4>O algoritmo não é neutro</h4><p>O que vês… foi escolhido para ti.</p></div></div>
+            <div class="dica-row"><span class="n">05</span><div><h4>Pensar dá trabalho (e ainda bem)</h4><p>Receber informação é fácil. Pensar sobre ela… nem tanto.</p></div></div>
+            <div class="dica-row"><span class="n">06</span><div><h4>Facto ou opinião?</h4><p>Nem tudo o que lês é objetivo.</p></div></div>
+            <div class="dica-row"><span class="n">07</span><div><h4>O teu papel importa</h4><p>Não és só consumidor.</p></div></div>
+          </div>
+        </div>
+        <div class="campaign-poster">
+          <img src="assets/cartaz_7dias.jpg" alt="Cartaz principal da iniciativa 7 Dias, 7 Dicas com a Biblioteca">
+        </div>
+      </div>
+      <div class="dica-strip">
+        <img src="assets/cartaz_7dias_1.jpg" alt="Dica 1 — Verificar é essencial" loading="lazy">
+        <img src="assets/cartaz_7dias_2.jpg" alt="Dica 2 — Informação não é tudo igual" loading="lazy">
+        <img src="assets/cartaz_7dias_3.jpg" alt="Dica 3 — Credibilidade constrói-se" loading="lazy">
+        <img src="assets/cartaz_7dias_4.jpg" alt="Dica 4 — O algoritmo não é neutro" loading="lazy">
+        <img src="assets/cartaz_7dias_5.jpg" alt="Dica 5 — Pensar dá trabalho" loading="lazy">
+        <img src="assets/cartaz_7dias_6.jpg" alt="Dica 6 — Facto ou opinião?" loading="lazy">
+        <img src="assets/cartaz_7dias_7.jpg" alt="Dica 7 — O teu papel importa" loading="lazy">
+        <img src="assets/cartaz_7dias_8.jpg" alt="O risco da desinformação e a importância de desenvolver a literacia mediática" loading="lazy">
+      </div>
     </div>
 
     <div class="block reveal">
       <div class="block-head"><h3>Estágio — Marketing Digital &amp; Comunicação</h3><span class="tag-sm">ISVOUGA · CONCLUÍDO</span></div>
-      <p class="stage-desc">Apoio à estratégia de comunicação digital de uma instituição de ensino superior.</p>
-      <p class="stage-note">Por acordo de confidencialidade, não são apresentados dados de campanhas, métricas ou materiais de Meta Ads.</p>
+      <p class="stage-desc">Implementação de estratégias digitais, comunicação institucional e apoio à promoção da oferta formativa.</p>
+      
       <div class="num-rows">
-        <div class="num-row"><span class="nr-num">01</span><h4>Marketing Digital &amp; Redes Sociais</h4><p>Calendários de conteúdo, copies para Meta Ads, acompanhamento de métricas.</p></div>
-        <div class="num-row"><span class="nr-num">02</span><h4>Comunicação Institucional</h4><p>Brochuras, flyers, emails institucionais e comunicação interna.</p></div>
-        <div class="num-row"><span class="nr-num">03</span><h4>Criação de Conteúdos</h4><p>Artigos e notícias para o blogue da Biblioteca.</p></div>
-        <div class="num-row"><span class="nr-num">04</span><h4>Eventos</h4><p>Apoio a feiras de educação, cobertura e conteúdos pós-evento.</p></div>
-        <div class="num-row"><span class="nr-num">05</span><h4>Análise &amp; Estratégia</h4><p>Benchmarking de instituições concorrentes.</p></div>
+        <div class="num-row"><span class="nr-num">01</span><h4>Redes Sociais &amp; Campanhas</h4><p>Planeamento e criação de calendários editoriais, redação de copies institucionais, suporte a campanhas em Meta Ads e análise de métricas de desempenho.</p></div>
+        <div class="num-row"><span class="nr-num">02</span><h4>Comunicação Institucional &amp; Oferta Formativa</h4><p>Redação e produção de suportes de comunicação (brochuras, flyers), gestão de comunicados internos por email e apoio à divulgação de CTeSP, licenciaturas, mestrados e pós-graduações.</p></div>
+        <div class="num-row"><span class="nr-num">03</span><h4>Criação de Conteúdos &amp; Publicações</h4><p>Produção de artigos e conteúdos de divulgação cultural para o blogue da Biblioteca, além da elaboração de materiais informativos para diferentes plataformas institucionais.</p></div>
+        <div class="num-row"><span class="nr-num">04</span><h4>Eventos &amp; Cobertura</h4><p>Presença e organização em feiras de educação, dinamização do espaço institucional. Cobertura fotográfica de eventos e criação de conteúdos de acompanhamento pós-evento.</p></div>
+        <div class="num-row"><span class="nr-num">05</span><h4>Pesquisa de Mercado &amp; Benchmarking</h4><p>Análise da concorrência no setor do ensino superior para levantamento de boas práticas e suporte à tomada de decisões estratégicas de comunicação.</p></div>
       </div>
     </div>
 
     <div class="block reveal">
       <div class="block-head"><h3>Conteúdos Visuais</h3><span class="tag-sm">DESIGN + COPY</span></div>
-      <div class="visuals-grid">
-        <div class="clip-card">
-          <div class="clip-imgwrap"><img src="assets/copy-dadores-sangue.jpg" alt="Campanha Associação de Dadores de Sangue"></div>
-          <div class="clip-body"><h5>Doação de Sangue</h5><span>ISVOUGA × ADS Feira</span></div>
+      <p class="block-desc">Conceção gráfica, fotografia de suporte e redação publicitária para formatos físicos e digitais.</p>
+
+      <div class="visual-part">
+        <div class="vp-text">
+          <span class="vp-num">01</span>
+          <h4>Atualização de Roll-ups</h4>
+          <span class="vp-sub">ISVOUGA · Design para Grande Formato</span>
+          <p>Reestruturação e atualização gráfica dos suportes expositivos do stand institucional, otimizando a hierarquia da informação e renovando elementos visuais para feiras de educação.</p>
         </div>
-        <div class="clip-card">
-          <div class="clip-imgwrap"><img src="assets/copy-liberdade-imprensa.jpg" alt="Dia Mundial da Liberdade de Imprensa"></div>
-          <div class="clip-body"><h5>Liberdade de Imprensa</h5><span>ISVOUGA</span></div>
+        <div class="vp-media">
+          <img src="assets/stand_isvouga_mockup.png" alt="Mockup dos roll-ups do stand institucional do ISVOUGA" loading="lazy">
         </div>
-        <div class="visual-placeholder">FLYERS &amp; CARTAZES<br>ESCOLA DE MÚSICA<br>(imagens em alta resolução a adicionar)</div>
+      </div>
+
+      <div class="visual-part">
+        <div class="vp-text">
+          <span class="vp-num">02</span>
+          <h4>Divulgação &amp; Captação de Alunos</h4>
+          <span class="vp-sub">Escola de Música · Materiais Impressos</span>
+          <p>Design e paginação de suportes promocionais (flyers e cartazes) orientados à captação de novos alunos e eventos culturais.</p>
+        </div>
+        <div class="vp-media vp-pair">
+          <img src="assets/Flyer_1.png" alt="Flyer do Open Day da Escola de Música da Banda Musical de Souto" loading="lazy">
+          <img src="assets/Flyer_2.png" alt="Cartaz de inscrições abertas da Escola de Música" loading="lazy">
+        </div>
+      </div>
+
+      <div class="visual-part">
+        <div class="vp-text">
+          <span class="vp-num">03</span>
+          <h4>Dias Comemorativos &amp; Redes Sociais</h4>
+          <span class="vp-sub">ISVOUGA · Fotografia &amp; Copywriting Institucional</span>
+          <p>Captação de fotografia de suporte, tratamento visual e redação integral de copy alinhado à comunicação de cursos da instituição.</p>
+        </div>
+        <div class="vp-media vp-post">
+          <img src="assets/post_isvouga.png" alt="Publicação do ISVOUGA para o Dia Nacional do Solicitador" loading="lazy">
+          <div class="vp-copy">
+            <span class="vp-copy-label">Copy publicado</span>
+            <p>Rigor, confiança e proximidade: os pilares que definem a missão do Solicitador na nossa sociedade.</p>
+            <p>Neste Dia Nacional do Solicitador, prestamos homenagem a todos os profissionais que asseguram o acesso à justiça e a defesa dos direitos dos cidadãos e das empresas. No ISVOUGA, temos o privilégio de formar futuros profissionais dotados de ética e competência técnica, prontos para enfrentar os desafios do setor jurídico com responsabilidade.</p>
+            <p>Aos/as nossos/as estudantes, docentes e diplomados/as de Solicitadoria, o nosso reconhecimento pelo vosso papel fundamental na construção de uma sociedade mais justa.</p>
+            <p><strong>Feliz Dia do Solicitador!</strong></p>
+            <p class="vp-hashtags">#dianacionaldosolicitador #solicitadoria #justiça #isvouga #somosisvouga #fazemospartedestahistoria</p>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="block reveal" style="margin-bottom:0;">
       <div class="block-head"><h3>Gestão Associativa</h3><span class="tag-sm">ESCOLA DE MÚSICA · BANDA MUSICAL DE SOUTO</span></div>
+      <p class="block-desc">Coordenação operacional, gestão financeira e articulação com a comunidade escolar.</p>
       <div class="assoc-box">
         <div>
-          <h4>Diretora da EMBMS &amp; Responsável de Comunicação</h4>
-          <p>Desde 2017, assegura a direção pedagógica e administrativa da escola, a coordenação de equipas e a comunicação institucional.</p>
+          <h4>Diretora da Escola de Música</h4>
+          <p>Coordenação e direção da Escola de Música da Banda Musical de Souto desde 2017, com assento nos órgãos sociais da instituição. Responsável pelo funcionamento prático da escola, articulação com as famílias e ligação contínua à Direção da Banda.</p>
         </div>
         <ul class="assoc-list">
-          <li>Comunicação institucional com encarregados de educação</li>
-          <li>Planeamento e organização de eventos</li>
-          <li>Materiais de divulgação — Open Day, inscrições, iniciativas solidárias</li>
-          <li>Redação da notícia "Noite da Francesinha" para jornal local</li>
+          <li>Gestão administrativa e financeira: controlo de mensalidades, pagamento a docentes e elaboração do relatório de contas anual para a Direção</li>
+          <li>Coordenação prática: organização de calendários, horários letivos e apoio ao corpo docente</li>
+          <li>Atividade pedagógica: lecionação das aulas de Formação Musical</li>
+          <li>Relação comunitária: comunicação contínua com os encarregados de educação e alinhamento com a Direção da Banda</li>
+          <li>Eventos e divulgação: planeamento de audições e Open Day, incluindo a criação dos suportes gráficos promocionais</li>
         </ul>
       </div>
     </div>
@@ -696,7 +494,7 @@
   document.querySelectorAll('.stat-num').forEach(el => countObserver.observe(el));
 
   // scrollspy: rail + topnav + mobile nav + counter
-  const sections = ['topo','destaque','sobre','portfolio','competencias','formacao','contacto'];
+  const sections = ['topo','destaque','sobre','projetos','competencias','formacao','contacto'];
   const railButtons = document.querySelectorAll('.rail button');
   const topLinks = document.querySelectorAll('.topnav a');
   const mobileLinks = document.querySelectorAll('.mobile-nav a');
@@ -721,22 +519,6 @@
   railButtons.forEach(b => b.addEventListener('click', () => {
     document.getElementById(b.dataset.target).scrollIntoView({behavior:'smooth'});
   }));
-
-  // cursor-follow preview on the blog index list
-  const preview = document.getElementById('cursorPreview');
-  const palette = ['#1E3FE0','#111110','#69695F','#1E3FE0','#111110'];
-  /*document.querySelectorAll('.index-row').forEach((row, i) => {
-    row.addEventListener('mouseenter', () => {
-      preview.textContent = row.dataset.preview;
-      preview.style.background = palette[i % palette.length];
-      preview.classList.add('visible');
-    });
-    row.addEventListener('mousemove', (e) => {
-      preview.style.left = e.clientX + 'px';
-      preview.style.top = (e.clientY - 70) + 'px';
-    });
-    row.addEventListener('mouseleave', () => preview.classList.remove('visible'));
-  });*/
 </script>
 
 </body>
