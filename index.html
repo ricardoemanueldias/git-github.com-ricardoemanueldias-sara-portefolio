@@ -23,7 +23,7 @@
   <button data-target="destaque" data-label="Destaque">Destaque</button>
   <button data-target="sobre" data-label="Sobre">Sobre</button>
   <button data-target="projetos" data-label="Projetos">Projetos</button>
-  <button data-target="competencias" data-label="Skills">Skills</button>
+  <button data-target="competencias" data-label="Skills">Competências</button>
   <button data-target="formacao" data-label="Formação">Formação</button>
   <button data-target="contacto" data-label="Contacto">Contacto</button>
 </div>
@@ -370,35 +370,69 @@
   <div class="wrap">
     <div class="s-head reveal">
       <span class="s-num">04</span>
-      <div class="s-eyebrow">Competências</div>
-      <h2 class="s-title">Ferramentas e capacidades</h2>
+      <div class="s-eyebrow">Hard skills</div>
+      <h2 class="s-title">Ferramentas e plataformas</h2>
     </div>
     <div class="spec-table reveal">
       <div class="spec-row">
-        <div class="cat">ESCRITA</div>
+        <div class="cat">DESIGN &amp; VISUAL</div>
         <div class="spec-items">
-          <div><b>Copywriting</b><span>Peças publicitárias e institucionais</span></div>
-          <div><b>Content Writing</b><span>Artigos, blogues e newsletters</span></div>
-          <div><b>Redação Jornalística</b><span>Notícias e comunicados</span></div>
-          <div><b>Redes Sociais</b><span>Planeamento e calendarização</span></div>
+          <div><b>Canva</b><span>Suportes gráficos</span></div>
+          <div><b>Adobe Illustrator</b><span>Vetorização</span></div>
+          <div><b>Adobe Photoshop</b><span>Edição de imagem</span></div>
         </div>
       </div>
       <div class="spec-row">
-        <div class="cat">DESIGN</div>
+        <div class="cat">PLATAFORMAS &amp; REDES</div>
         <div class="spec-items">
-          <div><b>Canva</b><span>Suportes gráficos ágeis</span></div>
-          <div><b>Illustrator</b><span>Vetorização</span></div>
-          <div><b>Photoshop</b><span>Edição de imagem</span></div>
-          <div><b>WordPress / Google Sites</b><span>Gestão de CMS</span></div>
-        </div>
-      </div>
-      <div class="spec-row">
-        <div class="cat">ESTRATÉGIA</div>
-        <div class="spec-items">
+          <div><b>Swonkie</b><span>Agendamento e monitorização</span></div>
+          <div><b>WordPress &amp; Google Sites</b><span>Gestão de CMS</span></div>
           <div><b>Meta Business Suite</b><span>Gestão e planeamento</span></div>
-          <div><b>Métricas Digitais</b><span>Acompanhamento de desempenho</span></div>
-          <div><b>Relações Públicas</b><span>Comunicação institucional</span></div>
+        </div>
+      </div>
+      <div class="spec-row">
+        <div class="cat">MARKETING &amp; EVENTOS</div>
+        <div class="spec-items">
           <div><b>E-goi</b><span>Email marketing</span></div>
+          <div><b>Eventbrite</b><span>Bilheteira e inscrições</span></div>
+        </div>
+      </div>
+      <div class="spec-row">
+        <div class="cat">GESTÃO &amp; NOTAÇÃO</div>
+        <div class="spec-items">
+          <div><b>Microsoft Office (Word, Excel, PowerPoint)</b><span>Documentação e relatórios</span></div>
+          <div><b>Finale</b><span>Notação musical</span></div>
+        </div>
+      </div>
+      <div class="spec-row">
+        <div class="cat">INTELIGÊNCIA ARTIFICIAL</div>
+        <div class="spec-items">
+          <div><b>IA Generativa (ChatGPT, Gemini, Claude, Perplexity, NotebookLM)</b><span>Pesquisa, ideação e apoio à escrita</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-head s-head-sub reveal">
+      <div class="s-eyebrow">Competências</div>
+      <h2 class="s-title">Áreas de atuação &amp; capacidades</h2>
+    </div>
+    <div class="spec-table reveal">
+      <div class="spec-row">
+        <div class="cat">ESCRITA &amp; CONTEÚDOS</div>
+        <div class="spec-terms">
+          <span>Copywriting</span><span>Content Writing</span><span>Redação Institucional</span>
+        </div>
+      </div>
+      <div class="spec-row">
+        <div class="cat">MARKETING &amp; COMUNICAÇÃO</div>
+        <div class="spec-terms">
+          <span>Relações Públicas</span><span>Gestão de Redes Sociais</span><span>Gestão de Comunidades</span><span>Análise de Métricas</span>
+        </div>
+      </div>
+      <div class="spec-row">
+        <div class="cat">GESTÃO &amp; COORDENAÇÃO</div>
+        <div class="spec-terms">
+          <span>Organização de Eventos</span><span>Articulação Comunitária</span><span>Coordenação Operacional</span>
         </div>
       </div>
     </div>
@@ -446,12 +480,7 @@
   navToggle.addEventListener('click', () => mobileNav.classList.toggle('open'));
   document.querySelectorAll('.mobile-nav a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('open')));
 
-  // progress bar
   const progress = document.getElementById('progress');
-  window.addEventListener('scroll', () => {
-    const h = document.documentElement;
-    progress.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-  });
 
   // hero line entrance on load
   window.addEventListener('load', () => {
@@ -501,20 +530,42 @@
   const counterNow = document.getElementById('counterNow');
   const counterBar = document.getElementById('counterBar');
 
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        const id = entry.target.id;
-        const i = sections.indexOf(id);
-        railButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
-        topLinks.forEach(l => l.classList.toggle('active', l.dataset.target === id));
-        mobileLinks.forEach(l => l.classList.toggle('active', l.dataset.target === id));
-        counterNow.textContent = String(i+1).padStart(2,'0');
-        counterBar.style.setProperty('--p', (((i+1)/sections.length)*100) + '%');
-      }
+  const sectionEls = sections.map(id => document.getElementById(id)).filter(Boolean);
+
+  // a seccao ativa e a ultima cujo topo ja passou a linha de referencia; secçoes
+  // muito altas nunca ocupam metade do ecra, por isso nao serve um IntersectionObserver
+  function updateSpy(){
+    const line = window.innerHeight * 0.35;
+    const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
+    let current = sectionEls[0];
+    for(const el of sectionEls){
+      if(el.getBoundingClientRect().top <= line) current = el;
+    }
+    if(atBottom) current = sectionEls[sectionEls.length - 1];
+
+    const id = current.id;
+    const i = sections.indexOf(id);
+    railButtons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+    topLinks.forEach(l => l.classList.toggle('active', l.dataset.target === id));
+    mobileLinks.forEach(l => l.classList.toggle('active', l.dataset.target === id));
+    counterNow.textContent = String(i+1).padStart(2,'0');
+    counterBar.style.setProperty('--p', (((i+1)/sections.length)*100) + '%');
+  }
+
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const h = document.documentElement;
+      progress.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+      updateSpy();
+      ticking = false;
     });
-  }, {threshold:0.5, rootMargin:'-90px 0px -40% 0px'});
-  sections.forEach(id => { const el = document.getElementById(id); if(el) spy.observe(el); });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  updateSpy();
 
   railButtons.forEach(b => b.addEventListener('click', () => {
     document.getElementById(b.dataset.target).scrollIntoView({behavior:'smooth'});

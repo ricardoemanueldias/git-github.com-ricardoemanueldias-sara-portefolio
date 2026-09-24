@@ -315,6 +315,10 @@ h1.hero-title{font-size:clamp(48px,8vw,118px); font-weight:900;}
 .spec-items{display:flex; flex-wrap:wrap; gap:10px 28px;}
 .spec-items div b{display:block; font-size:14.5px; font-weight:700;}
 .spec-items div span{font-size:12.5px; color:var(--muted);}
+.spec-terms{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:14.5px; font-weight:600;}
+.spec-terms span{display:inline-flex; align-items:center; gap:14px;}
+.spec-terms span:not(:last-child)::after{content:'·'; color:var(--blue); font-weight:700;}
+.s-head-sub{margin-top:76px;}
 @media (max-width:700px){.spec-row{grid-template-columns:1fr;}}
 
 /* EDUCATION */
